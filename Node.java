@@ -8,15 +8,12 @@ public class Node {
     public int[] puzzle = new int[9];
     public int x = 0;
     public int col = 3;
-    public int[] goal = new int[9];
+    private final int[] goal = {1,2,3,4,5,6,7,8,0};
 
     public Node(int[] p) {
 
         puzzle = p;
 
-    }
-    public void setGoal(int[] g) {
-        goal = g;
     }
 
     public void expandMove() {
@@ -29,20 +26,33 @@ public class Node {
         moveToUp(puzzle, x);
         moveToDown(puzzle, x);
     }
+
+    private void addChild(int[] pc) {
+
+        Node child = new Node(pc);
+            children.add(child);
+            child.parent = this;
+
+    }
+
+    private void swap(int[] pc, int a, int b) {
+        int temp = pc[a];
+        pc[a] = pc[b];
+        pc[b] = temp;
+        
+    }
     
     public void moveToRight(int[] p, int i) {
 
         if(i % col < col - 1) {
             int[] pc = new int[9];
             copyPuzzle(pc, p);
+            
+            // swapping positions
+            swap(pc, i+1, i);
+            
 
-            int temp = pc[i +1];
-            pc[i + 1] = pc[i];
-            pc[i] = temp;
-
-            Node child = new Node(pc);
-            children.add(child);
-            child.parent = this;
+            addChild(pc);
 
         }
 
@@ -54,13 +64,9 @@ public class Node {
             int[] pc = new int[9];
             copyPuzzle(pc, p);
 
-            int temp = pc[i -1];
-            pc[i - 1] = pc[i];
-            pc[i] = temp;
+            swap(pc, i-1, i);
 
-            Node child = new Node(pc);
-            children.add(child);
-            child.parent = this;
+            addChild(pc);
 
         }
         
@@ -72,13 +78,9 @@ public class Node {
             int[] pc = new int[9];
             copyPuzzle(pc, p);
 
-            int temp = pc[i - 3];
-            pc[i - 3] = pc[i];
-            pc[i] = temp;
+            swap(pc, i-3, i);
 
-            Node child = new Node(pc);
-            children.add(child);
-            child.parent = this;
+            addChild(pc);
         }
         
     }
@@ -89,13 +91,9 @@ public class Node {
             int[] pc = new int[9];
             copyPuzzle(pc, p);
 
-            int temp = pc[i + 3];
-            pc[i + 3] = pc[i];
-            pc[i] = temp;
+            swap(pc, i+3, i);
 
-            Node child = new Node(pc);
-            children.add(child);
-            child.parent = this;
+            addChild(pc);
         }
         
     }
@@ -135,7 +133,7 @@ public class Node {
         
         boolean isGoal = true;
 
-        for(int i = 1; i<puzzle.length; i++ ) {
+        for(int i = 0; i<puzzle.length; i++) {
             if (puzzle[i] != goal[i]) {
                 isGoal = false;
                 break;

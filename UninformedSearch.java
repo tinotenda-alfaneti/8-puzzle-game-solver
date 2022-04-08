@@ -8,13 +8,18 @@ public class UninformedSearch {
     }
 
     public List<Node> breadthFirstSearch(Node root) {
+
         List<Node> pathToSolution = new LinkedList<>();
 
+        // LinkedList to store the children
         List<Node> openList = new LinkedList<>();
+        // LinkedList to store unvisited children
         List<Node> closedList = new LinkedList<>();
 
         openList.add(root);
         boolean goalFound = false;
+
+        int count = 0;
 
         while (!openList.isEmpty() && goalFound != true) {
             Node currNode = openList.get(0);
@@ -22,6 +27,8 @@ public class UninformedSearch {
             openList.remove(0);
 
             currNode.expandMove();
+
+            if (count%500 == 0) System.out.println("Still Trying...");
             
             for(int i = 0; i<currNode.children.size(); i++) {
                 Node currChild = currNode.children.get(i);
@@ -35,6 +42,7 @@ public class UninformedSearch {
                 if (!Contains(openList, currChild) && !Contains(closedList, currChild))
                     openList.add(currChild);
             }
+            count++;
         }
 
 
@@ -42,6 +50,8 @@ public class UninformedSearch {
     }
 
     public void pathTrace (List<Node> path, Node n) {
+        
+        int steps = 0;
 
         System.out.println("Tracing path");
 
@@ -50,7 +60,9 @@ public class UninformedSearch {
         while(current.parent != null) {
             current = current.parent;
             path.add(current);
+            steps++;
         }
+        System.out.println("Moves: " + steps);
 
 
     }
