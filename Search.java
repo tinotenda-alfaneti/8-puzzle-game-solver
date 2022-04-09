@@ -1,11 +1,7 @@
 import java.util.List;
 import java.util.LinkedList;
 
-public class UninformedSearch {
-
-    public UninformedSearch() {
-
-    }
+public class Search {
 
     public List<Node> breadthFirstSearch(Node root) {
 
@@ -30,8 +26,8 @@ public class UninformedSearch {
 
             if (count%500 == 0) System.out.println("Still Trying...");
             
-            for(int i = 0; i<currNode.children.size(); i++) {
-                Node currChild = currNode.children.get(i);
+            for(int i = 0; i<currNode.getChildren().size(); i++) {
+                Node currChild = currNode.getChildren().get(i);
                 if(currChild.goalTest()) {
                     System.out.println("Goal Found");
                     goalFound = true;
@@ -57,8 +53,8 @@ public class UninformedSearch {
 
         Node current = n;
         path.add(current);
-        while(current.parent != null) {
-            current = current.parent;
+        while(current.getParent() != null) {
+            current = current.getParent();
             path.add(current);
             steps++;
         }
@@ -66,11 +62,12 @@ public class UninformedSearch {
 
 
     }
+    
     public static boolean Contains(List<Node> list, Node c) {
         boolean contains = false;
 
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).isSamePuzzle(c.puzzle)) {
+            if (list.get(i).isSamePuzzle(c.getPuzzle())) {
 
                 contains = true;
             }

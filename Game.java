@@ -15,8 +15,8 @@ public class Game {
         
 
         Node root = new Node(puzzle);
-        UninformedSearch ui = new UninformedSearch();
-        List<Node> solution = ui.breadthFirstSearch(root);
+        Search algorithm = new Search();
+        List<Node> solution = algorithm.breadthFirstSearch(root);
 
         if (solution.size() > 0) {
             for (int i = 0; i < solution.size(); i++) {
