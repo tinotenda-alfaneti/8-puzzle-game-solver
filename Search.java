@@ -18,6 +18,8 @@ public class Search {
         int count = 0;
 
         while (!openList.isEmpty() && goalFound != true) {
+            
+            // Queue structure implementation removing the one at the beginning and inserting at the end
             Node currNode = openList.get(0);
             closedList.add(currNode);
             openList.remove(0);
@@ -28,6 +30,8 @@ public class Search {
             
             for(int i = 0; i<currNode.getChildren().size(); i++) {
                 Node currChild = currNode.getChildren().get(i);
+
+                // checking if goal state is reached
                 if(currChild.goalTest()) {
                     System.out.println("Goal Found");
                     goalFound = true;
@@ -35,6 +39,7 @@ public class Search {
                     break;
                 }
 
+                // Adding the unique game state to the queue
                 if (!Contains(openList, currChild) && !Contains(closedList, currChild))
                     openList.add(currChild);
             }
@@ -45,6 +50,10 @@ public class Search {
         return pathToSolution;
     }
 
+    /**Method to trace the solution path and the counting the number of steps
+     * @param path the tree with the puzzles
+     * @param n the solution found
+     */
     public void pathTrace (List<Node> path, Node n) {
         
         int steps = 0;
@@ -63,6 +72,10 @@ public class Search {
 
     }
     
+    /**Method to check if the tree contains the game state that was found
+     * @param list the tree of the game states
+     * @param c the found game state
+     */
     public static boolean Contains(List<Node> list, Node c) {
         boolean contains = false;
 

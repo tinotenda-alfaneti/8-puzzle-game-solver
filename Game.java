@@ -6,7 +6,7 @@ public class Game {
     public static void main(String[] args) {
 
         int[] puzzle = {
-            1,2,4,6,5,3,7,8,0
+            1,2,3,4,5,6,8,7,0
         };
 
         for (int i = 0; i<args.length; i++) {

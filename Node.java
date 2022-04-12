@@ -10,7 +10,7 @@ public class Node {
     private int col = 3;
     private final int[] goal = {1,2,3,4,5,6,7,8,0};
 
-    ValidateMove move = new ValidateMove();
+    Move move = new Move();
 
 
     public Node(int[] p) {
@@ -31,6 +31,7 @@ public class Node {
         return puzzle;
     }
 
+    /**Method for exanding the board, creating the subboards from the current state */
     public void expandMove() {
         for (int i = 0; i < puzzle.length; i++) {
             if (puzzle[i] == 0) x = i;
@@ -47,6 +48,9 @@ public class Node {
         if (d) addChild(move.dpuz);
     }
 
+    /**Method for adding a board ot the tree
+     * @param pc The game state after a move
+    */
     public void addChild(int[] pc) {
 
         Node child = new Node(pc);
@@ -54,6 +58,8 @@ public class Node {
             child.parent = this;
 
     }
+
+    /**Method for printing the current puzzle state */
     public void printPuzzle() {
         System.out.println();
         int m = 0;
@@ -67,6 +73,9 @@ public class Node {
         }
     }
 
+    /**Method for checking the if the puzzle or the game state is the same as the current to avoid repetition
+     * @return if the puzzle is the same or different
+     */
     public boolean isSamePuzzle(int[] p) {
         
         boolean samePuzzle = true;
@@ -79,6 +88,9 @@ public class Node {
         return samePuzzle;
     }
 
+    /**Method to check if the given puzzle state has been reached
+     * @return True if found and false otherwise
+     */
     public boolean goalTest() {
         
         boolean isGoal = true;
