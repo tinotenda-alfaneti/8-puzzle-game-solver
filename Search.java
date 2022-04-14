@@ -5,63 +5,65 @@ public class Search {
 
     public List<Node> breadthFirstSearch(Node root) {
 
-        List<Node> pathToSolution = new LinkedList<>();
+        List<Node> shortestPathToSolution = new LinkedList<>();
 
         // LinkedList to store the children
-        List<Node> openList = new LinkedList<>();
+        List<Node> uncheckedGameStates = new LinkedList<>();
         // LinkedList to store unvisited children
-        List<Node> closedList = new LinkedList<>();
+        List<Node> checkedGameStates = new LinkedList<>();
 
-        openList.add(root);
-        boolean goalFound = false;
+        uncheckedGameStates.add(root);
+        boolean goalStateFound = false;
 
         int count = 0;
 
-        while (!openList.isEmpty() && goalFound != true) {
+        while (!uncheckedGameStates.isEmpty() && goalStateFound != true) {
             
             // Queue structure implementation removing the one at the beginning and inserting at the end
-            Node currNode = openList.get(0);
-            closedList.add(currNode);
-            openList.remove(0);
+            Node currentGameState = uncheckedGameStates.get(0);
+            checkedGameStates.add(currentGameState);
+            uncheckedGameStates.remove(0);
 
-            currNode.expandMove();
+            currentGameState.expandGameState();
 
             if (count%500 == 0) System.out.println("Still Trying...");
             
-            for(int i = 0; i<currNode.getChildren().size(); i++) {
-                Node currChild = currNode.getChildren().get(i);
+            for(int i = 0; i<currentGameState.getChildren().size(); i++) {
+                Node currentGameStateChild = currentGameState.getChildren().get(i);
 
                 // checking if goal state is reached
-                if(currChild.goalTest()) {
+                if(currentGameStateChild.goalStateTest()) {
                     System.out.println("Goal Found");
-                    goalFound = true;
-                    pathTrace(pathToSolution, currChild);
+                    goalStateFound = true;
+                    tracingPath(shortestPathToSolution, currentGameStateChild);
                     break;
                 }
 
                 // Adding the unique game state to the queue
-                if (!Contains(openList, currChild) && !Contains(closedList, currChild))
-                    openList.add(currChild);
+                if (!WasStateSeenBefore(uncheckedGameStates, currentGameStateChild) && !WasStateSeenBefore(checkedGameStates, currentGameStateChild))
+                    uncheckedGameStates.add(currentGameStateChild);
             }
             count++;
         }
 
 
-        return pathToSolution;
+        return shortestPathToSolution;
     }
 
     /**Method to trace the solution path and the counting the number of steps
      * @param path the tree with the puzzles
-     * @param n the solution found
+     * @param sol the solution found
      */
-    public void pathTrace (List<Node> path, Node n) {
+    private void tracingPath (List<Node> path, Node sol) {
         
         int steps = 0;
 
-        System.out.println("Tracing path");
+        System.out.println("Finding shortest path");
 
-        Node current = n;
+        Node current = sol;
+
         path.add(current);
+
         while(current.getParent() != null) {
             current = current.getParent();
             path.add(current);
@@ -74,13 +76,13 @@ public class Search {
     
     /**Method to check if the tree contains the game state that was found
      * @param list the tree of the game states
-     * @param c the found game state
+     * @param chil the found game state
      */
-    public static boolean Contains(List<Node> list, Node c) {
+    private boolean WasStateSeenBefore(List<Node> list, Node chil) {
         boolean contains = false;
 
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).isSamePuzzle(c.getPuzzle())) {
+            if (list.get(i).isSamePuzzle(chil.getPuzzle())) {
 
                 contains = true;
             }

@@ -6,7 +6,7 @@ public class Node {
     private List<Node> children = new LinkedList<>();
     private Node parent;
     private int[] puzzle = new int[9];
-    private int x = 0;
+    private int emptyPos = 0;
     private int col = 3;
     private final int[] goal = {1,2,3,4,5,6,7,8,0};
 
@@ -31,16 +31,16 @@ public class Node {
         return puzzle;
     }
 
-    /**Method for exanding the board, creating the subboards from the current state */
-    public void expandMove() {
+    /**Method for eemptyPosanding the board, creating the subboards from the current state */
+    public void expandGameState() {
         for (int i = 0; i < puzzle.length; i++) {
-            if (puzzle[i] == 0) x = i;
+            if (puzzle[i] == 0) emptyPos = i;
         }
 
-        boolean r = move.moveToRight(puzzle, x);
-        boolean l = move.moveToLeft(puzzle, x);
-        boolean u = move.moveToUp(puzzle, x);
-        boolean d = move.moveToDown(puzzle, x);
+        boolean r = move.moveToRight(puzzle, emptyPos);
+        boolean l = move.moveToLeft(puzzle, emptyPos);
+        boolean u = move.moveToUp(puzzle, emptyPos);
+        boolean d = move.moveToDown(puzzle, emptyPos);
 
         if (r) addChild(move.rpuz);
         if (l) addChild(move.lpuz);
@@ -91,7 +91,7 @@ public class Node {
     /**Method to check if the given puzzle state has been reached
      * @return True if found and false otherwise
      */
-    public boolean goalTest() {
+    public boolean goalStateTest() {
         
         boolean isGoal = true;
 

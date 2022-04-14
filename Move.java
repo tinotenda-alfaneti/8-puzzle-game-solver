@@ -13,7 +13,7 @@ public class Move {
      * @param a puzzle to copy to
      * @param b puzzle to copy from
     */
-    private void copyPuzzle(int[] a, int[] b) {
+    private void duplicatePuzzle(int[] a, int[] b) {
         for (int i = 0; i < b.length; i++) {
             a[i] = b[i];
         }
@@ -39,7 +39,7 @@ public class Move {
 
         if(i % col < col - 1) {
             int[] pc = new int[9];
-            copyPuzzle(pc, p);
+            duplicatePuzzle(pc, p);
             
             // swapping positions
             swap(pc, i+1, i);
@@ -60,7 +60,7 @@ public class Move {
 
         if(i % col > 0) {
             int[] pc = new int[9];
-            copyPuzzle(pc, p);
+            duplicatePuzzle(pc, p);
 
             swap(pc, i-1, i);
 
@@ -79,7 +79,7 @@ public class Move {
 
         if( i - col >= 0) {
             int[] pc = new int[9];
-            copyPuzzle(pc, p);
+            duplicatePuzzle(pc, p);
 
             swap(pc, i-3, i);
 
@@ -99,7 +99,7 @@ public class Move {
         if( i + col < p.length) {
             int[] pc = new int[9];
             
-            copyPuzzle(pc, p);
+            duplicatePuzzle(pc, p);
 
             swap(pc, i+3, i);
 
