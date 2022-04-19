@@ -1,6 +1,6 @@
 public class Move {
 
-    private int col = 3;
+    int col = 3;
 
     // to save game states after making a move
     int[] rpuz = new int[9]; // right

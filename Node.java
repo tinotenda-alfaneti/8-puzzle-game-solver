@@ -6,8 +6,7 @@ public class Node {
     private List<Node> children = new LinkedList<>();
     private Node parent;
     private int[] puzzle = new int[9];
-    private int emptyPos = 0;
-    private int col = 3;
+    int emptyPos = 0;
     private final int[] goal = {1,2,3,4,5,6,7,8,0};
 
     Move move = new Move();
@@ -37,21 +36,21 @@ public class Node {
             if (puzzle[i] == 0) emptyPos = i;
         }
 
-        boolean r = move.moveToRight(puzzle, emptyPos);
-        boolean l = move.moveToLeft(puzzle, emptyPos);
-        boolean u = move.moveToUp(puzzle, emptyPos);
-        boolean d = move.moveToDown(puzzle, emptyPos);
+        boolean right = move.moveToRight(puzzle, emptyPos);
+        boolean left = move.moveToLeft(puzzle, emptyPos);
+        boolean up = move.moveToUp(puzzle, emptyPos);
+        boolean down = move.moveToDown(puzzle, emptyPos);
 
-        if (r) addChild(move.rpuz);
-        if (l) addChild(move.lpuz);
-        if (u) addChild(move.upuz);
-        if (d) addChild(move.dpuz);
+        if (right) addChild(move.rpuz); // right moved puzzle
+        if (left) addChild(move.lpuz); // left moved puzzle
+        if (up) addChild(move.upuz); // up moved puzzle
+        if (down) addChild(move.dpuz); // down moved puzzle
     }
 
     /**Method for adding a board ot the tree
      * @param pc The game state after a move
     */
-    public void addChild(int[] pc) {
+    private void addChild(int[] pc) {
 
         Node child = new Node(pc);
             children.add(child);
@@ -63,6 +62,7 @@ public class Node {
     public void printPuzzle() {
         System.out.println();
         int m = 0;
+        int col = 3;
         
         for (int i = 0; i<col; i++) {
             for (int j = 0; j<col; j++) {
@@ -103,7 +103,4 @@ public class Node {
         }
         return isGoal;
     }
-
-
-
 }
