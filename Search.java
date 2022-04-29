@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Stack;
 
 public class Search {
 
@@ -48,6 +49,53 @@ public class Search {
 
 
         return shortestPathToSolution;
+    }
+
+    ///Solve the game with DFS (Very very very inefficient)
+    //this method uses a stack to simulate the recursion
+    public List<Node> depthFirstSearch(Node root){
+        List<Node> PathToSolution = new LinkedList<>();
+
+        // Stack to store the children
+        Stack<Node> uncheckedGameStates = new Stack<>();
+        // Stack to store unvisited children
+        Stack<Node> checkedGameStates = new Stack<>();
+
+        uncheckedGameStates.push(root);
+        boolean goalStateFound = false;
+
+        int count = 0;
+
+        while (!uncheckedGameStates.isEmpty() && goalStateFound != true) {
+            
+            //Stack structure implementation removing the one at the beginning and inserting at the end
+            Node currentGameState = uncheckedGameStates.pop();
+            checkedGameStates.push(currentGameState);
+
+            currentGameState.expandGameState();
+
+            if (count%500 == 0) System.out.println("Still Trying...");
+            
+            for(int i = 0; i<currentGameState.getChildren().size(); i++) {
+                Node currentGameStateChild = currentGameState.getChildren().get(i);
+
+                // checking if goal state is reached
+                if(currentGameStateChild.goalStateTest()) {
+                    System.out.println("Goal Found");
+                    goalStateFound = true;
+                    tracingPath(PathToSolution, currentGameStateChild);
+                    break;
+                }
+
+                // Adding the unique game state to the queue
+                if (!WasStateSeenBefore(uncheckedGameStates, currentGameStateChild) && !WasStateSeenBefore(checkedGameStates, currentGameStateChild))
+                    uncheckedGameStates.add(currentGameStateChild);
+            }
+            count++;
+        }
+
+
+        return PathToSolution;
     }
 
     /**Method to trace the solution path and the counting the number of steps
