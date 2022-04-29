@@ -1,18 +1,19 @@
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Arrays;
 
-public class Node {
+public class Node extends Move {
 
     private List<Node> children = new LinkedList<>();
     private Node parent;
-    private int[] puzzle = new int[9];
+    private byte[] puzzle = new byte[9];
     int emptyPos = 0;
-    private final int[] goal = {1,2,3,4,5,6,7,8,0};
+    private final byte[] goal = {1,2,3,4,5,6,7,8,0};
 
-    Move move = new Move();
+    //Move move = new Move();
 
 
-    public Node(int[] p) {
+    public Node(byte[] p) {
 
         puzzle = p;
 
@@ -26,7 +27,7 @@ public class Node {
         return parent;
     }
 
-    public int[] getPuzzle() {
+    public byte[] getPuzzle() {
         return puzzle;
     }
 
@@ -35,26 +36,25 @@ public class Node {
         for (int i = 0; i < puzzle.length; i++) {
             if (puzzle[i] == 0) emptyPos = i;
         }
+        boolean right = moveToRight(puzzle, emptyPos);
+        boolean left = moveToLeft(puzzle, emptyPos);
+        boolean up = moveToUp(puzzle, emptyPos);
+        boolean down = moveToDown(puzzle, emptyPos);
 
-        boolean right = move.moveToRight(puzzle, emptyPos);
-        boolean left = move.moveToLeft(puzzle, emptyPos);
-        boolean up = move.moveToUp(puzzle, emptyPos);
-        boolean down = move.moveToDown(puzzle, emptyPos);
-
-        if (right) addChild(move.rpuz); // right moved puzzle
-        if (left) addChild(move.lpuz); // left moved puzzle
-        if (up) addChild(move.upuz); // up moved puzzle
-        if (down) addChild(move.dpuz); // down moved puzzle
+        if (right) addChild(rpuz); // right moved puzzle
+        if (left) addChild(lpuz); // left moved puzzle
+        if (up) addChild(upuz); // up moved puzzle
+        if (down) addChild(dpuz); // down moved puzzle
     }
 
     /**Method for adding a board ot the tree
      * @param pc The game state after a move
     */
-    private void addChild(int[] pc) {
+    private void addChild(byte[] pc) {
 
         Node child = new Node(pc);
-            children.add(child);
-            child.parent = this;
+        children.add(child);
+        child.parent = this;
 
     }
 
@@ -76,16 +76,10 @@ public class Node {
     /**Method for checking the if the puzzle or the game state is the same as the current to avoid repetition
      * @return if the puzzle is the same or different
      */
-    public boolean isSamePuzzle(int[] p) {
-        
-        boolean samePuzzle = true;
-        for(int i = 0; i < p.length; i++) {
-            if (puzzle[i] != p[i]) {
-                samePuzzle = false;
-                break;
-            }
-        }
-        return samePuzzle;
+    public boolean isSamePuzzle(byte[] p) {
+
+        return Arrays.equals(puzzle, goal);
+
     }
 
     /**Method to check if the given puzzle state has been reached
@@ -93,14 +87,7 @@ public class Node {
      */
     public boolean goalStateTest() {
         
-        boolean isGoal = true;
+        return Arrays.equals(puzzle, goal);
 
-        for(int i = 0; i<puzzle.length; i++) {
-            if (puzzle[i] != goal[i]) {
-                isGoal = false;
-                break;
-            }
-        }
-        return isGoal;
     }
 }
