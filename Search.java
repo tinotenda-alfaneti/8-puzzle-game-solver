@@ -27,7 +27,7 @@ public class Search {
 
             currentGameState.expandGameState();
 
-            if (count%500 == 0) System.out.println("Still Trying...");
+            if (count%5000 == 0) System.out.println("Still Trying...");
             
             for(int i = 0; i<currentGameState.getChildren().size(); i++) {
                 Node currentGameStateChild = currentGameState.getChildren().get(i);

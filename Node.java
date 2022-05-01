@@ -64,13 +64,19 @@ public class Node extends Move {
         int m = 0;
         int col = 3;
         
+        System.out.println("-----------------");
         for (int i = 0; i<col; i++) {
+            System.out.println(" ___________");
             for (int j = 0; j<col; j++) {
-                System.out.print(puzzle[m] + " ");
+                if (j == 0) System.out.print("| ");
+                System.out.print(puzzle[m] + " | ");
                 m++;
             }
+            
             System.out.println();
         }
+        System.out.println(" ____________");
+        System.out.println("\n-----------------\n");
     }
 
     /**Method for checking the if the puzzle or the game state is the same as the current to avoid repetition
