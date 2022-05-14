@@ -10,32 +10,31 @@ public class Node extends Move {
     int emptyPos = 0;
     private final byte[] goal = {1,2,3,4,5,6,7,8,0};
 
-    //Move move = new Move();
-
-
+    // Constructor
     public Node(byte[] p) {
 
         puzzle = p;
 
     }
 
+    // Getter methods
     public List<Node> getChildren() {
         return children;
     }
-
     public Node getParent() {
         return parent;
     }
-
     public byte[] getPuzzle() {
         return puzzle;
     }
+
 
     /**Method for eemptyPosanding the board, creating the subboards from the current state */
     public void expandGameState() {
         for (int i = 0; i < puzzle.length; i++) {
             if (puzzle[i] == 0) emptyPos = i;
         }
+
         boolean right = moveToRight(puzzle, emptyPos);
         boolean left = moveToLeft(puzzle, emptyPos);
         boolean up = moveToUp(puzzle, emptyPos);
@@ -65,14 +64,16 @@ public class Node extends Move {
         int col = 3;
         
         System.out.println("-----------------");
+
         for (int i = 0; i<col; i++) {
+
             System.out.println(" ___________");
+            
             for (int j = 0; j<col; j++) {
                 if (j == 0) System.out.print("| ");
                 System.out.print(puzzle[m] + " | ");
                 m++;
             }
-            
             System.out.println();
         }
         System.out.println(" ____________");

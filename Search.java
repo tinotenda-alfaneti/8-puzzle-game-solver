@@ -1,33 +1,31 @@
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Stack;
+import java.util.Queue;
 
 public class Search {
 
     public List<Node> breadthFirstSearch(Node root) {
 
         List<Node> shortestPathToSolution = new LinkedList<>();
-
         // LinkedList to store the children
-        List<Node> uncheckedGameStates = new LinkedList<>();
+        Queue<Node> uncheckedGameStates = new LinkedList<>();
         // LinkedList to store unvisited children
-        List<Node> checkedGameStates = new LinkedList<>();
-
-        uncheckedGameStates.add(root);
+        Queue<Node> checkedGameStates = new LinkedList<>();
+        uncheckedGameStates.offer(root);
         boolean goalStateFound = false;
 
         int count = 0;
 
         while (!uncheckedGameStates.isEmpty() && goalStateFound != true) {
-            
             // Queue structure implementation removing the one at the beginning and inserting at the end
-            Node currentGameState = uncheckedGameStates.get(0);
-            checkedGameStates.add(currentGameState);
-            uncheckedGameStates.remove(0);
+            Node currentGameState = uncheckedGameStates.remove();
+            checkedGameStates.offer(currentGameState);
+            //uncheckedGameStates.remove(0);
 
             currentGameState.expandGameState();
 
-            if (count%5000 == 0) System.out.println("Still Trying...");
+            if (count%500 == 0) System.out.println("Still Trying...");
             
             for(int i = 0; i<currentGameState.getChildren().size(); i++) {
                 Node currentGameStateChild = currentGameState.getChildren().get(i);
@@ -39,15 +37,13 @@ public class Search {
                     tracingPath(shortestPathToSolution, currentGameStateChild);
                     break;
                 }
-
                 // Adding the unique game state to the queue
-                if (!WasStateSeenBefore(uncheckedGameStates, currentGameStateChild) && !WasStateSeenBefore(checkedGameStates, currentGameStateChild))
-                    uncheckedGameStates.add(currentGameStateChild);
+                if (!WasStateSeenBefore(uncheckedGameStates, currentGameStateChild) && 
+                    !WasStateSeenBefore(checkedGameStates, currentGameStateChild))
+                    uncheckedGameStates.offer(currentGameStateChild);
             }
             count++;
         }
-
-
         return shortestPathToSolution;
     }
 
@@ -88,7 +84,8 @@ public class Search {
                 }
 
                 // Adding the unique game state to the queue
-                if (!WasStateSeenBefore(uncheckedGameStates, currentGameStateChild) && !WasStateSeenBefore(checkedGameStates, currentGameStateChild))
+                if (!WasStateSeenBefore(uncheckedGameStates, currentGameStateChild) && 
+                    !WasStateSeenBefore(checkedGameStates, currentGameStateChild))
                     uncheckedGameStates.add(currentGameStateChild);
             }
             count++;
@@ -126,16 +123,15 @@ public class Search {
      * @param list the tree of the game states
      * @param chil the found game state
      */
-    private boolean WasStateSeenBefore(List<Node> list, Node chil) {
-        boolean contains = false;
+    private boolean WasStateSeenBefore(Queue<Node> list, Node chil) {
+    
+        for (Node n : list) {
+            if (n.isSamePuzzle(chil.getPuzzle())) {
 
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).isSamePuzzle(chil.getPuzzle())) {
-
-                contains = true;
+                return true;
             }
         }
-        return contains;
+        return false;
 
     }
     
