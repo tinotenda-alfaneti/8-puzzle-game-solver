@@ -7,7 +7,7 @@ public class Search {
 
     public List<Node> breadthFirstSearch(Node root) {
 
-        List<Node> shortestPathToSolution = new LinkedList<>();
+        List<Node> shortestPath = new LinkedList<>();
         // LinkedList to store the children
         Queue<Node> uncheckedGameStates = new LinkedList<>();
         // LinkedList to store unvisited children
@@ -34,7 +34,7 @@ public class Search {
                 if(currentGameStateChild.goalStateTest()) {
                     System.out.println("Goal Found");
                     goalStateFound = true;
-                    tracingPath(shortestPathToSolution, currentGameStateChild);
+                    tracingPath(shortestPath, currentGameStateChild);
                     break;
                 }
                 // Adding the unique game state to the queue
@@ -44,7 +44,7 @@ public class Search {
             }
             count++;
         }
-        return shortestPathToSolution;
+        return shortestPath;
     }
 
     ///Solve the game with DFS (Very very very inefficient)
@@ -134,6 +134,23 @@ public class Search {
         return false;
 
     }
+    
+    /**Method to check if the tree contains the game state that was found
+     * @param list the tree of the game states
+     * @param chil the found game state
+     */
+    private boolean WasStateSeenBefore(Stack<Node> list, Node chil) {
+    
+        for (Node n : list) {
+            if (n.isSamePuzzle(chil.getPuzzle())) {
+
+                return true;
+            }
+        }
+        return false;
+
+    }
+    
     
 }
 

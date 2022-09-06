@@ -8,7 +8,7 @@ public class Game {
 
     /**The method checks if the game state provided can be solved
      * @param puzzle the game state to be solve */
-    public static boolean isGameSolvable(byte[] puzzle){
+    private static boolean isGameSolvable(byte[] puzzle){
         int inversion = 0; 
         // A pair of tiles form an inversion if the values on tiles are in reverse order 
         // of their appearance in goal state. 
@@ -25,7 +25,7 @@ public class Game {
     /**Method to generate random board and checks if it is solvable 
      * @return the randomly generated puzzle
     */
-    public static byte[] generateRandomBoard() {
+    private static byte[] generateRandomBoard() {
         
         byte[] puzzle = {-1,-1,-1,-1,-1,-1,-1,-1,-1};
         int i = 0;
@@ -96,15 +96,13 @@ public class Game {
         }
         
         
-        
-        
         Node root = new Node(puzzle); // initializing the node
 
         root.printPuzzle();
 
         Search algorithm = new Search(); // initializing the Search class to access the algorithms
 
-        // Calcultating the time taken to search for the solution
+        // Calculating the time taken to search for the solution
         long startTime = System.nanoTime();
         List<Node> solution = algorithm.breadthFirstSearch(root); 
         long stopTime = System.nanoTime();

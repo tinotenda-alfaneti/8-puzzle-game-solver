@@ -15,9 +15,9 @@ public class Move {
      * @param a puzzle to copy to
      * @param b puzzle to copy from
     */
-    private void duplicatePuzzle(byte[] a, byte[] b) {
-        for (int i = 0; i < b.length; i++) {
-            a[i] = b[i];
+    private void duplicatePuzzle(byte[] puzzle_a, byte[] puzzle_b) {
+        for (int i = 0; i < puzzle_b.length; i++) {
+            puzzle_a[i] = puzzle_b[i];
         }
     }
 
@@ -26,10 +26,10 @@ public class Move {
      * @param a the first value for swapping
      * @param b the second value to swap with
      */
-    private void swap(byte[] pc, int a, int b) {
-        byte temp = pc[a];
-        pc[a] = pc[b];
-        pc[b] = temp;
+    private void swap(byte[] puzzle, int first_val, int sec_val) {
+        byte temp = puzzle[first_val];
+        puzzle[first_val] = puzzle[sec_val];
+        puzzle[sec_val] = temp;
         
     }
 
@@ -37,16 +37,16 @@ public class Move {
      * @param p the puzzle to shift the value in
      * @param i the index to make the move/index with zero
      */
-    public boolean moveToRight(byte[] p, int i) {
+    public boolean moveToRight(byte[] puzzle, int indx) {
 
-        if(i % col < col - 1) {
-            byte[] pc = new byte[9];
-            duplicatePuzzle(pc, p);
+        if(indx % col < col - 1) {
+            byte[] temp_puz = new byte[9];
+            duplicatePuzzle(temp_puz, puzzle);
              
             // swapping positions
-            swap(pc, i+1, i);
+            swap(temp_puz, indx+1, indx);
 
-            rpuz = pc;
+            rpuz = temp_puz;
             return true;
         }
         return false; 
@@ -58,15 +58,15 @@ public class Move {
      * @param i the index to make the move/index with zero
      */
 
-    public boolean moveToLeft(byte[] p, int i) {
+    public boolean moveToLeft(byte[] puzzle, int indx) {
 
-        if(i % col > 0) {
-            byte[] pc = new byte[9];
-            duplicatePuzzle(pc, p);
+        if(indx % col > 0) {
+            byte[] temp_puz = new byte[9];
+            duplicatePuzzle(temp_puz, puzzle);
 
-            swap(pc, i-1, i);
+            swap(temp_puz, indx-1, indx);
 
-            lpuz = pc;
+            lpuz = temp_puz;
 
             return true;
         }
@@ -77,15 +77,15 @@ public class Move {
      * @param p the puzzle to shift the value in
      * @param i the index to make the move/index with zero
      */
-    public boolean moveToUp(byte[] p, int i) {
+    public boolean moveToUp(byte[] puzzle, int indx) {
 
-        if( i - col >= 0) {
-            byte[] pc = new byte[9];
-            duplicatePuzzle(pc, p);
+        if( indx - col >= 0) {
+            byte[] temp_puz = new byte[9];
+            duplicatePuzzle(temp_puz, puzzle);
 
-            swap(pc, i-3, i);
+            swap(temp_puz, indx-3, indx);
 
-            upuz = pc;
+            upuz = temp_puz;
             return true;
         }
         return false; 
@@ -96,16 +96,16 @@ public class Move {
      * @param p the puzzle to shift the value in
      * @param i the index to make the move/index with zero
      */
-    public boolean moveToDown(byte[] p, int i) {
+    public boolean moveToDown(byte[] puzzle, int indx) {
 
-        if( i + col < p.length) {
-            byte[] pc = new byte[9];
+        if( indx + col < puzzle.length) {
+            byte[] temp_puz = new byte[9];
             
-            duplicatePuzzle(pc, p);
+            duplicatePuzzle(temp_puz, puzzle);
 
-            swap(pc, i+3, i);
+            swap(temp_puz, indx+3, indx);
 
-            dpuz = pc;
+            dpuz = temp_puz;
 
             return true;
         }

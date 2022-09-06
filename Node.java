@@ -11,9 +11,9 @@ public class Node extends Move {
     private final byte[] goal = {1,2,3,4,5,6,7,8,0};
 
     // Constructor
-    public Node(byte[] p) {
+    public Node(byte[] puzzle) {
 
-        puzzle = p;
+        this.puzzle = puzzle;
 
     }
 
@@ -25,7 +25,7 @@ public class Node extends Move {
         return parent;
     }
     public byte[] getPuzzle() {
-        return puzzle;
+        return this.puzzle;
     }
 
 
